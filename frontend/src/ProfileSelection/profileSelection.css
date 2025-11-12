@@ -1,9 +1,5 @@
 
-.selection-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
+
 
 
 .selection-main {
@@ -20,7 +16,7 @@
 }
 
 
-.selection-main > p {
+.selection-main p {
   font-size: 1.1rem;
   color: #666;
   margin-bottom: 3rem;

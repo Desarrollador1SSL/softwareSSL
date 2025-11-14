@@ -7,7 +7,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 //RUTAS/VISTAS
 //import App from './App'
-import ProfileSelection from './ProfileSelection/ProfileSelection'
+import ProfileSelection from './components/ProfileSelection/ProfileSelection'
 import LoginCliente from './components/LoginCliente'
 
 const router =createBrowserRouter([

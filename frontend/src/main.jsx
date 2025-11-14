@@ -9,6 +9,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 //import App from './App'
 import ProfileSelection from './components/ProfileSelection/ProfileSelection'
 import LoginCliente from './components/LoginCliente'
+import PortalCliente from './components/PortalClientes'
+import RutaProtegida from './components/RutaProtegida'
 
 const router =createBrowserRouter([
   {
@@ -18,6 +20,14 @@ const router =createBrowserRouter([
   {
     path: "/login",
     element: <LoginCliente/>
+  },
+  {
+    path: "/portal-cliente",
+    element:(
+      <RutaProtegida>
+        <PortalCliente />
+      </RutaProtegida>
+    )
   }
 ]);
 

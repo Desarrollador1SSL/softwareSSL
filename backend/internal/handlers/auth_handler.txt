@@ -1,2 +1,0 @@
-este sera un archivo .go que:
-- tendra el login handler

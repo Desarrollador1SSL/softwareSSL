@@ -24,9 +24,9 @@ const router =createBrowserRouter([
   {
     path: "/portal-cliente",
     element:(
-      <RutaProtegida>
-        <PortalCliente />
-      </RutaProtegida>
+      
+      <PortalCliente />
+      
     )
   }
 ]);

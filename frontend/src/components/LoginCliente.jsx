@@ -9,12 +9,64 @@ function LoginCliente() {
   const [usuario, setUsuario] = useState('');
   const [password, setPassword] = useState('');
 
+  //Estados para manejar la carga y los errores
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   // Manejador de "submit" (por ahora solo previene el envío)
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Intento de login con:', { usuario, password });
-    // Aquí iría la lógica de autenticación
+
+    //Reiniciamos estados
+    setIsLoading(true);
+    setError(null);
+
+    //URL API GOLANG
+    const API_URL = 'http://localhost:8080/api/login'; 
+
+
+    try {
+
+      //usamos fetch para enviar la peticion POST
+      const response = await fetch(API_URL,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          usuario: usuario,
+          password: password,
+        }),
+      });
+
+      if (!response.ok){
+        //se intenta leer el error go recibido 
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Usuario o contraseña incorrectos.');
+      }
+
+      const data = await response.json();
+
+      
+      
+    } catch (error) {
+      
+      console.error('Error en el login:', error);
+      setError(err.message);
+
+    } finally {
+
+      setIsLoading(false);
+
+    }
+
   };
+
+
+
+
+
+
 
   return (
     <div className="login-page-container">

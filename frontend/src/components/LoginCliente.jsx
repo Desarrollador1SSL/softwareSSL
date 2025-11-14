@@ -1,5 +1,6 @@
 // LoginCliente.jsx
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaUser, FaLock } from 'react-icons/fa'; // Importamos íconos
 import './loginCliente.css';
 import logo from '../assets/icons/ssl-logo.png';
@@ -12,7 +13,8 @@ function LoginCliente() {
   //Estados para manejar la carga y los errores
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  
+  const navigate = useNavigate();
   // Manejador de "submit" (por ahora solo previene el envío)
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +25,6 @@ function LoginCliente() {
 
     //URL API GOLANG
     const API_URL = 'http://localhost:8080/api/login'; 
-
 
     try {
 
@@ -45,8 +46,11 @@ function LoginCliente() {
         throw new Error(errorData.error || 'Usuario o contraseña incorrectos.');
       }
 
+      
       const data = await response.json();
 
+      //REDIRECCIONA SI LA API RESPONDE OK/200
+      navigate('/portal-cliente');
       
       
     } catch (error) {

@@ -10,7 +10,8 @@
   background: linear-gradient(135deg, #a881ee 0%, #7f78d2 100%);
   padding: 2rem;
   box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Un tipo de letra más común o similar */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* Un tipo de letra más común o similar */
 }
 
 /* Tarjeta de login */
@@ -20,7 +21,8 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 420px;
-  padding: 2.5rem; /* Ajuste para que se vea un poco más compacto si es necesario */
+  padding: 2.5rem;
+  /* Ajuste para que se vea un poco más compacto si es necesario */
   box-sizing: border-box;
   text-align: center;
 }
@@ -31,25 +33,55 @@
   margin-bottom: 2rem;
 }
 
+/* --- ¡AQUÍ ESTÁ LA MODIFICACIÓN! --- */
 .back-arrow {
   position: absolute;
-  top: -0.5rem; /* Ajuste un poco más arriba */
-  left: -0.5rem; /* Ajuste un poco más a la izquierda */
-  font-size: 1.6rem; /* Un poco más grande */
-  color: #555; /* Color gris */
+  top: -0.5rem;
+  /* Ajuste un poco más arriba */
+  left: -0.5rem;
+  /* Ajuste un poco más a la izquierda */
+  font-size: 1.6rem;
+  /* Un poco más grande */
+  color: #555;
+  /* Color gris */
   text-decoration: none;
   font-weight: bold;
+
+  /* AÑADIDO: Para que el <button> se comporte como un enlace */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  /* Añadimos un poco de área de clic */
+
+  /* AÑADIDO: La magia de la animación */
+  transition: all 0.2s ease-in-out;
 }
+
+/* AÑADIDO: La animación al pasar el mouse */
+.back-arrow:hover {
+  color: #6c5ce7;
+  /* Color morado de tu tema */
+  transform: translateX(-3px);
+  /* Moverá la flecha 3px a la izquierda */
+}
+
+/* --- FIN DE LA MODIFICACIÓN --- */
+
 
 /* Ajuste para el texto "SSL Logo" */
 .login-logo {
   /* Si usas una imagen: */
-  width: 80px; /* Mantener tamaño */
+  width: 80px;
+  /* Mantener tamaño */
   margin-bottom: 0.5rem;
   /* Si el "logo" es texto como en la imagen 2 */
-  font-size: 1.1rem; /* Tamaño para el texto "SSL Logo" */
-  color: #999; /* Color gris más claro */
-  display: block; /* Para que ocupe su propia línea si es texto */
+  font-size: 1.1rem;
+  /* Tamaño para el texto "SSL Logo" */
+  color: #999;
+  /* Color gris más claro */
+  display: block;
+  /* Para que ocupe su propia línea si es texto */
 
   margin-left: auto;
   margin-right: auto;
@@ -59,12 +91,14 @@
   font-size: 1.8rem;
   font-weight: 600;
   color: #333;
-  margin: 0.8rem 0 0; /* Ajuste el margen superior */
+  margin: 0.8rem 0 0;
+  /* Ajuste el margen superior */
 }
 
 .portal-badge {
   display: inline-block;
-  background-color: #6c5ce7; /* Mismo color que el botón de cliente */
+  background-color: #6c5ce7;
+  /* Mismo color que el botón de cliente */
   color: #fff;
   padding: 0.25rem 0.8rem;
   border-radius: 99px;
@@ -79,7 +113,8 @@
 }
 
 .input-group {
-  margin-bottom: 1.5rem; /* Espacio entre grupos de input */
+  margin-bottom: 1.5rem;
+  /* Espacio entre grupos de input */
 }
 
 .input-group label {
@@ -100,15 +135,20 @@
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  color: #999; /* Color gris para el ícono */
-  font-size: 1rem; /* Un poco más grande para que se vea mejor */
+  color: #999;
+  /* Color gris para el ícono */
+  font-size: 1rem;
+  /* Un poco más grande para que se vea mejor */
 }
 
 .input-wrapper input {
   width: 100%;
-  padding: 0.8rem 0.75rem 0.8rem 2.8rem; /* Aumentar padding para el ícono, y hacer el input más alto */
-  border: 1px solid #e0e0e0; /* Borde más sutil */
-  background-color: #f8f8f8; /* Fondo ligeramente gris para los inputs */
+  padding: 0.8rem 0.75rem 0.8rem 2.8rem;
+  /* Aumentar padding para el ícono, y hacer el input más alto */
+  border: 1px solid #e0e0e0;
+  /* Borde más sutil */
+  background-color: #f8f8f8;
+  /* Fondo ligeramente gris para los inputs */
   border-radius: 8px;
   font-size: 0.95rem;
   box-sizing: border-box;
@@ -117,15 +157,19 @@
 }
 
 .input-wrapper input::placeholder {
-    color: #a0a0a0; /* Color del placeholder más claro */
+  color: #a0a0a0;
+  /* Color del placeholder más claro */
 }
 
 
 .input-wrapper input:focus {
-  border-color: #6c5ce7; /* Borde de enfoque más notorio */
-  background-color: #ffffff; /* Fondo blanco al enfocar */
+  border-color: #6c5ce7;
+  /* Borde de enfoque más notorio */
+  background-color: #ffffff;
+  /* Fondo blanco al enfocar */
   outline: none;
-  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15); /* Sombra suave al enfocar */
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+  /* Sombra suave al enfocar */
 }
 
 /* --- Opciones del Formulario --- */
@@ -143,12 +187,15 @@
 }
 
 .checkbox-group input[type="checkbox"] {
-  width: 18px; /* Tamaño del checkbox */
+  width: 18px;
+  /* Tamaño del checkbox */
   height: 18px;
   margin-right: 0.6rem;
   border: 1px solid #ccc;
-  border-radius: 4px; /* Bordes ligeramente redondeados */
-  appearance: none; /* Quita el estilo predeterminado del navegador */
+  border-radius: 4px;
+  /* Bordes ligeramente redondeados */
+  appearance: none;
+  /* Quita el estilo predeterminado del navegador */
   -webkit-appearance: none;
   -moz-appearance: none;
   cursor: pointer;
@@ -158,12 +205,14 @@
 }
 
 .checkbox-group input[type="checkbox"]:checked {
-  background-color: #6c5ce7; /* Color de fondo cuando está marcado */
+  background-color: #6c5ce7;
+  /* Color de fondo cuando está marcado */
   border-color: #6c5ce7;
 }
 
 .checkbox-group input[type="checkbox"]:checked::before {
-  content: '✔'; /* Símbolo de check */
+  content: '✔';
+  /* Símbolo de check */
   display: block;
   color: #fff;
   font-size: 12px;
@@ -184,10 +233,12 @@
 }
 
 .forgot-password {
-  color: #6c5ce7; /* Mismo color morado */
+  color: #6c5ce7;
+  /* Mismo color morado */
   text-decoration: none;
   font-weight: 500;
-  font-size: 0.95rem; /* Un poco más grande */
+  font-size: 0.95rem;
+  /* Un poco más grande */
 }
 
 .forgot-password:hover {
@@ -200,7 +251,8 @@
   padding: 0.85rem;
   border: none;
   border-radius: 8px;
-  background-color: #0984e3; /* Azul más claro */
+  background-color: #0984e3;
+  /* Azul más claro */
   color: #fff;
   font-size: 1rem;
   font-weight: 600;
@@ -208,9 +260,20 @@
   transition: background-color 0.2s, transform 0.1s;
 }
 
+/* Clase de CSS para el mensaje de error */
+.error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+
 .login-button:hover {
-  background-color: #076cb8; /* Azul más oscuro al pasar el mouse */
-  transform: translateY(-1px); /* Efecto ligero de "presionar" */
+  background-color: #076cb8;
+  /* Azul más oscuro al pasar el mouse */
+  transform: translateY(-1px);
+  /* Efecto ligero de "presionar" */
 }
 
 .login-button:active {

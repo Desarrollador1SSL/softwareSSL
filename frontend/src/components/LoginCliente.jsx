@@ -15,6 +15,7 @@ function LoginCliente() {
   const [error, setError] = useState(null);
   
   const navigate = useNavigate();
+  
   // Manejador de "submit" (por ahora solo previene el envío)
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,7 +57,8 @@ function LoginCliente() {
     } catch (error) {
       
       console.error('Error en el login:', error);
-      setError(err.message);
+      // Corrección: se usa 'error.message' en lugar de 'err.message'
+      setError(error.message);
 
     } finally {
 
@@ -66,19 +68,22 @@ function LoginCliente() {
 
   };
 
-
-
-
-
-
-
   return (
     <div className="login-page-container">
       <div className="login-card">
         
         {/* Encabezado */}
         <div className="login-header">
-          <a href="#" className="back-arrow">←</a>
+          {/* MODIFICACIÓN: Botón para volver atrás */}
+          <button 
+            type="button" 
+            className="back-arrow" 
+            onClick={() => navigate(-1)}
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }} // Asegura que herede estilos limpios
+          >
+            ←
+          </button>
+
           <img src={logo} alt="SSL Logo" className="login-logo" />
           <h2>Sistema SSL v4.0</h2>
           <span className="portal-badge">Portal Cliente</span>
@@ -126,9 +131,16 @@ function LoginCliente() {
             <a href="#" className="forgot-password">¿Olvidó su contraseña?</a>
           </div>
 
+           {/* Mensaje de error visual (opcional, si quieres verlo en pantalla) */}
+           {error && (
+            <div style={{ color: 'red', marginBottom: '1rem', fontSize: '0.9rem' }}>
+              {error}
+            </div>
+          )}
+
           {/* Botón de Iniciar Sesión */}
-          <button type="submit" className="login-button">
-            Iniciar Sesión
+          <button type="submit" className="login-button" disabled={isLoading}>
+            {isLoading ? 'Verificando...' : 'Iniciar Sesión'}
           </button>
         </form>
 

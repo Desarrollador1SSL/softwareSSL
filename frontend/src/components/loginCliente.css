@@ -33,7 +33,7 @@
   margin-bottom: 2rem;
 }
 
-/* --- ¡AQUÍ ESTÁ LA MODIFICACIÓN! --- */
+/* --- MODIFICACIÓN DE FLECHA --- */
 .back-arrow {
   position: absolute;
   top: -0.5rem;
@@ -47,27 +47,24 @@
   text-decoration: none;
   font-weight: bold;
 
-  /* AÑADIDO: Para que el <button> se comporte como un enlace */
+  /* IMPORTANTE: Reset de estilos de botón para que parezca un enlace */
   background: none;
   border: none;
   cursor: pointer;
-  padding: 5px;
-  /* Añadimos un poco de área de clic */
+  padding: 0 5px;
+  /* Un poco de área de click */
 
-  /* AÑADIDO: La magia de la animación */
-  transition: all 0.2s ease-in-out;
+  /* Animación suave */
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
-/* AÑADIDO: La animación al pasar el mouse */
+/* ANIMACIÓN AL PASAR EL MOUSE */
 .back-arrow:hover {
   color: #6c5ce7;
-  /* Color morado de tu tema */
-  transform: translateX(-3px);
-  /* Moverá la flecha 3px a la izquierda */
+  /* Cambia a color morado */
+  transform: translateX(-5px);
+  /* Se mueve a la izquierda */
 }
-
-/* --- FIN DE LA MODIFICACIÓN --- */
-
 
 /* Ajuste para el texto "SSL Logo" */
 .login-logo {
@@ -259,15 +256,6 @@
   cursor: pointer;
   transition: background-color 0.2s, transform 0.1s;
 }
-
-/* Clase de CSS para el mensaje de error */
-.error-message {
-  color: red;
-  text-align: center;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-}
-
 
 .login-button:hover {
   background-color: #076cb8;

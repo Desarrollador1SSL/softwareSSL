@@ -16,7 +16,7 @@ function LoginCliente() {
   
   const navigate = useNavigate();
   
-  // Manejador de "submit" (por ahora solo previene el envío)
+  // Manejador de "submit"
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -28,7 +28,6 @@ function LoginCliente() {
     const API_URL = 'http://localhost:8080/api/login'; 
 
     try {
-
       //usamos fetch para enviar la peticion POST
       const response = await fetch(API_URL,{
         method: 'POST',
@@ -46,26 +45,20 @@ function LoginCliente() {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Usuario o contraseña incorrectos.');
       }
-
       
       const data = await response.json();
 
       //REDIRECCIONA SI LA API RESPONDE OK/200
       navigate('/portal-cliente');
       
-      
     } catch (error) {
-      
       console.error('Error en el login:', error);
-      // Corrección: se usa 'error.message' en lugar de 'err.message'
+      // CORRECCIÓN: Usamos 'error.message'
       setError(error.message);
 
     } finally {
-
       setIsLoading(false);
-
     }
-
   };
 
   return (
@@ -74,12 +67,14 @@ function LoginCliente() {
         
         {/* Encabezado */}
         <div className="login-header">
-          {/* MODIFICACIÓN: Botón para volver atrás */}
+          
+          {/* --- ARREGLO DE LA FLECHA --- */}
+          {/* Cambiado de <a> a <button> para usar navigate */}
           <button 
             type="button" 
             className="back-arrow" 
             onClick={() => navigate(-1)}
-            style={{ background: 'none', border: 'none', cursor: 'pointer' }} // Asegura que herede estilos limpios
+            title="Volver"
           >
             ←
           </button>
@@ -131,9 +126,9 @@ function LoginCliente() {
             <a href="#" className="forgot-password">¿Olvidó su contraseña?</a>
           </div>
 
-           {/* Mensaje de error visual (opcional, si quieres verlo en pantalla) */}
-           {error && (
-            <div style={{ color: 'red', marginBottom: '1rem', fontSize: '0.9rem' }}>
+          {/* Mensaje de error visual (Agregado para feedback) */}
+          {error && (
+            <div className="error-message" style={{ color: 'red', marginBottom: '1rem', textAlign: 'center' }}>
               {error}
             </div>
           )}

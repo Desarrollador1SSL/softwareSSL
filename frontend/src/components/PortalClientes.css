@@ -1,0 +1,268 @@
+/* portal.css - Layout Vertical */
+
+/* 1. Contenedor Maestro */
+.dashboard-layout-vertical {
+  display: flex;
+  flex-direction: column; /* Apila Header sobre Body */
+  height: 100vh;
+  width: 100vw;
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+}
+
+/* 2. Navbar Superior (Header) */
+.top-navbar {
+  height: 64px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Separa Marca de Controles */
+  padding: 0 20px;
+  flex-shrink: 0; /* No se encoge */
+  z-index: 10; /* Por encima del resto */
+}
+
+/* Parte Izquierda del Header (Marca) */
+.navbar-brand-area {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.navbar-logo {
+  width: 35px;
+  height: auto;
+}
+
+.navbar-title h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: 700;
+}
+
+.navbar-title span {
+  font-size: 0.75rem;
+  color: #6c5ce7; /* Morado */
+  display: block;
+  font-weight: 500;
+}
+
+/* Parte Derecha del Header (Controles) */
+.navbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-date {
+  color: #777;
+  font-size: 0.85rem;
+}
+
+.divider-vertical {
+  width: 1px;
+  height: 24px;
+  background-color: #eee;
+}
+
+.btn-help {
+  background-color: #6c5ce7;
+  color: white;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 4px; /* Botón cuadradito redondeado como en la foto */
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.notification-icon {
+  position: relative;
+  color: #555;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: #e74c3c;
+  color: white;
+  font-size: 0.65rem;
+  padding: 2px 5px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.avatar-circle {
+  width: 32px;
+  height: 32px;
+  background-color: #6c5ce7;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+
+/* 3. Cuerpo del Dashboard (Sidebar + Main) */
+.dashboard-body {
+  display: flex; /* Pone Sidebar junto a Main */
+  flex: 1; /* Ocupa el resto de la altura */
+  overflow: hidden;
+}
+
+/* 4. Sidebar */
+.sidebar-container {
+  width: 260px;
+  background-color: #fff;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.sidebar-container.collapsed {
+  width: 70px;
+}
+
+/* Botón Toggle (Flecha Azul) */
+.toggle-btn {
+  position: absolute;
+  top: 15px; /* Bajamos un poco */
+  right: -12px; 
+  width: 24px;
+  height: 24px;
+  background-color: #6c5ce7;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  border: 2px solid #fff;
+}
+
+/* Menú Items */
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.95rem;
+  margin-bottom: 2px;
+}
+
+.menu-item:hover {
+  background-color: #f5f5f5;
+}
+
+/* ESTILO ACTIVO (Morado como en la foto) */
+.menu-item.active {
+  background-color: #6c5ce7; /* Fondo morado */
+  color: white; /* Texto blanco */
+}
+
+.menu-item.active .menu-icon {
+  color: white;
+}
+
+.menu-icon {
+  margin-right: 15px;
+  font-size: 1.1rem;
+  color: #666;
+  min-width: 20px;
+  text-align: center;
+}
+
+.menu-arrow {
+  margin-left: auto;
+  font-size: 0.8rem;
+}
+
+/* Ocultar textos al colapsar */
+.sidebar-container.collapsed .menu-item span,
+.sidebar-container.collapsed .menu-arrow {
+  display: none;
+}
+
+.sidebar-container.collapsed .menu-item {
+  justify-content: center;
+  padding: 15px 0;
+}
+
+.sidebar-container.collapsed .menu-icon {
+  margin-right: 0;
+  font-size: 1.3rem;
+}
+
+
+/* 5. Main Content */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.content-area {
+  padding: 20px;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.breadcrumb-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.back-btn-circle {
+  width: 28px;
+  height: 28px;
+  background-color: #6c5ce7;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+.white-paper {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  min-height: 500px;
+  padding: 2rem;
+}

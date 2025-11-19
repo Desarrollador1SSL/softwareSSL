@@ -13,49 +13,41 @@ function LoginCliente() {
   //Estados para manejar la carga y los errores
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  
+
   const navigate = useNavigate();
-  
+
   // Manejador de "submit"
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    //Reiniciamos estados
     setIsLoading(true);
     setError(null);
-
-    //URL API GOLANG
-    const API_URL = 'http://localhost:8080/api/login'; 
+    const API_URL = 'http://localhost:8080/api/login';
 
     try {
-      //usamos fetch para enviar la peticion POST
-      const response = await fetch(API_URL,{
+      const response = await fetch(API_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          usuario: usuario,
-          password: password,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ usuario, password }),
       });
 
-      if (!response.ok){
-        //se intenta leer el error go recibido 
+      if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Usuario o contraseña incorrectos.');
       }
-      
+
       const data = await response.json();
 
-      //REDIRECCIONA SI LA API RESPONDE OK/200
+      // --- ¡CAMBIO IMPORTANTE AQUÍ! ---
+      // Guardamos el token en el navegador para usarlo después
+      localStorage.setItem('authToken', data.token);
+      console.log("Token guardado:", data.token);
+      // --------------------------------
+
       navigate('/portal-cliente');
-      
+
     } catch (error) {
       console.error('Error en el login:', error);
-      // CORRECCIÓN: Usamos 'error.message'
       setError(error.message);
-
     } finally {
       setIsLoading(false);
     }
@@ -64,15 +56,15 @@ function LoginCliente() {
   return (
     <div className="login-page-container">
       <div className="login-card">
-        
+
         {/* Encabezado */}
         <div className="login-header">
-          
+
           {/* --- ARREGLO DE LA FLECHA --- */}
           {/* Cambiado de <a> a <button> para usar navigate */}
-          <button 
-            type="button" 
-            className="back-arrow" 
+          <button
+            type="button"
+            className="back-arrow"
             onClick={() => navigate(-1)}
             title="Volver"
           >
@@ -86,15 +78,15 @@ function LoginCliente() {
 
         {/* Formulario de Login */}
         <form className="login-form" onSubmit={handleSubmit}>
-          
+
           {/* Campo Usuario */}
           <div className="input-group">
             <label htmlFor="usuario">Usuario</label>
             <div className="input-wrapper">
               <FaUser className="input-icon" />
-              <input 
-                type="text" 
-                id="usuario" 
+              <input
+                type="text"
+                id="usuario"
                 placeholder="Ingrese su usuario"
                 value={usuario}
                 onChange={(e) => setUsuario(e.target.value)}
@@ -107,9 +99,9 @@ function LoginCliente() {
             <label htmlFor="password">Contraseña</label>
             <div className="input-wrapper">
               <FaLock className="input-icon" />
-              <input 
-                type="password" 
-                id="password" 
+              <input
+                type="password"
+                id="password"
                 placeholder="Ingrese su contraseña"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

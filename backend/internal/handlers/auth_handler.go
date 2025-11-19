@@ -3,7 +3,7 @@ package handlers
 import (
 	"database/sql"
 	"encoding/json"
-	"log" // Usamos 'log' en lugar de 'fmt' para registros profesionales
+	"log"
 	"net/http"
 	"time"
 
@@ -15,7 +15,7 @@ import (
 )
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
-	// 1. Configuración CORS
+	// ... (Configuración CORS y validación de método igual que antes) ...
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
 	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -24,13 +24,12 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		return
 	}
-
 	if r.Method != "POST" {
 		http.Error(w, "Método no permitido", http.StatusMethodNotAllowed)
 		return
 	}
 
-	// 2. Leer JSON del Frontend
+	// Leer JSON
 	var req models.LoginRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
@@ -38,49 +37,51 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// (LIMPIEZA: Eliminamos los fmt.Printf que mostraban usuario y contraseña)
-
-	// 3. Buscar el usuario en la Base de Datos
+	// 1. Buscar usuario y su ID (Necesitamos el ID para la tabla sessions)
+	var userID int
 	var dbHashPassword string
-	query := `SELECT password FROM ssldb.login WHERE "user" = $1`
 
-	err = database.DB.QueryRow(query, req.Usuario).Scan(&dbHashPassword)
+	// Seleccionamos ID y Password
+	query := `SELECT id, password FROM ssldb.login WHERE "user" = $1`
+	err = database.DB.QueryRow(query, req.Usuario).Scan(&userID, &dbHashPassword)
 
 	if err == sql.ErrNoRows {
-		// Usuario no existe: Mensaje genérico por seguridad
 		http.Error(w, `{"error": "Credenciales inválidas"}`, http.StatusUnauthorized)
 		return
 	} else if err != nil {
-		// Error técnico: Lo registramos en el servidor con fecha/hora
-		log.Printf("Error al consultar BD para usuario %s: %v\n", req.Usuario, err)
-		http.Error(w, "Error interno del servidor", http.StatusInternalServerError)
+		log.Printf("Error DB: %v\n", err)
+		http.Error(w, "Error interno", http.StatusInternalServerError)
 		return
 	}
 
-	// 4. Verificar la contraseña
+	// 2. Verificar contraseña
 	err = bcrypt.CompareHashAndPassword([]byte(dbHashPassword), []byte(req.Contrasena))
 	if err != nil {
-		// Contraseña mal: Mensaje genérico por seguridad
 		http.Error(w, `{"error": "Credenciales inválidas"}`, http.StatusUnauthorized)
 		return
 	}
 
-	// 5. Generar nuevo Token y Actualizar Fecha
-	newToken := uuid.New().String()
-	fechaActual := time.Now()
+	// 3. Crear la SESIÓN (Cumpliendo con Jefe y Experto)
+	sessionID := uuid.New()                       // El token
+	expiresAt := time.Now().Add(30 * time.Minute) // Temporabilidad (Jefe)
 
-	updateQuery := `UPDATE ssldb.login SET token = $1, fechaingreso = $2 WHERE "user" = $3`
-	_, err = database.DB.Exec(updateQuery, newToken, fechaActual, req.Usuario)
+	// Metadatos (Experto): Aquí podrías guardar roles, permisos, etc.
+	metadata := `{"rol": "cliente", "permisos": ["ver_dashboard"]}`
+
+	insertSession := `INSERT INTO ssldb.sessions (id, user_id, expires_at, data) VALUES ($1, $2, $3, $4)`
+	_, err = database.DB.Exec(insertSession, sessionID, userID, expiresAt, metadata)
+
 	if err != nil {
-		log.Printf("Error al actualizar token para usuario %s: %v\n", req.Usuario, err)
-		http.Error(w, "Error interno del servidor", http.StatusInternalServerError)
+		log.Printf("Error creando sesión: %v\n", err)
+		http.Error(w, "Error al crear sesión", http.StatusInternalServerError)
 		return
 	}
 
-	// 6. Responder al Frontend con éxito
+	// 4. Responder con el Token (Session ID)
 	resp := models.LoginResponse{
 		Message: "Login exitoso",
 		User:    req.Usuario,
+		Token:   sessionID.String(),
 	}
 
 	w.Header().Set("Content-Type", "application/json")

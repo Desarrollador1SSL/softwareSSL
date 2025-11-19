@@ -12,4 +12,5 @@ type LoginRequest struct {
 type LoginResponse struct {
 	Message string `json:"message"`
 	User    string `json:"user"`
+	Token   string `json:"token"` // ¡Nuevo campo!
 }

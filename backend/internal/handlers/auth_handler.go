@@ -1,23 +1,21 @@
 package handlers
 
 import (
+	"database/sql"
 	"encoding/json"
-	"fmt"
+	"log" // Usamos 'log' en lugar de 'fmt' para registros profesionales
 	"net/http"
+	"time"
 
-	// ¡IMPORTANTE! Importamos nuestros modelos (structs)
-	// que definiremos en el siguiente paso.
-	// (Recuerda cambiar "softwaressl" por el nombre de tu módulo)
+	"github.com/desarrollador1SSL/softwaressl/internal/database"
 	"github.com/desarrollador1SSL/softwaressl/internal/models"
+
+	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 )
 
-// LoginHandler maneja la petición de login
-// (Nota: El nombre empieza con 'L' mayúscula para que sea público
-// y 'router' pueda importarlo).
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
-
-	// (Paso A: Configurar CORS)
-	// (Más adelante, esto se moverá a un "middleware" centralizado)
+	// 1. Configuración CORS
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
 	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -27,36 +25,61 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// (Paso B: Solo aceptar POST)
 	if r.Method != "POST" {
 		http.Error(w, "Método no permitido", http.StatusMethodNotAllowed)
 		return
 	}
 
-	// (Paso C: Decodificar el JSON usando el "molde")
-	var req models.LoginRequest // Usamos el struct del paquete 'models'
-
+	// 2. Leer JSON del Frontend
+	var req models.LoginRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
 		http.Error(w, "JSON malformado", http.StatusBadRequest)
 		return
 	}
 
-	// (Paso D: Prueba de conexión)
-	fmt.Printf("Intento de login recibido para el usuario: %s\n", req.Usuario)
-	fmt.Printf("Intento de login recibido para la pass: %s\n", req.Contrasena)
+	// (LIMPIEZA: Eliminamos los fmt.Printf que mostraban usuario y contraseña)
 
-	// (Paso E: Futura Lógica de Negocio)
-	// En lugar de hacer la lógica aquí, llamarías a un "servicio":
-	// token, err := services.AuthService.Login(req.Usuario, req.Contrasena)
-	// if err != nil {
-	//    http.Error(w, "Credenciales inválidas", http.StatusUnauthorized)
-	//    return
-	// }
+	// 3. Buscar el usuario en la Base de Datos
+	var dbHashPassword string
+	query := `SELECT password FROM ssldb.login WHERE "user" = $1`
 
-	// (Paso F: Enviar respuesta de ÉXITO)
-	resp := models.LoginResponse{ // Usamos el struct del paquete 'models'
-		Message: "Login recibido exitosamente por el backend de Go",
+	err = database.DB.QueryRow(query, req.Usuario).Scan(&dbHashPassword)
+
+	if err == sql.ErrNoRows {
+		// Usuario no existe: Mensaje genérico por seguridad
+		http.Error(w, `{"error": "Credenciales inválidas"}`, http.StatusUnauthorized)
+		return
+	} else if err != nil {
+		// Error técnico: Lo registramos en el servidor con fecha/hora
+		log.Printf("Error al consultar BD para usuario %s: %v\n", req.Usuario, err)
+		http.Error(w, "Error interno del servidor", http.StatusInternalServerError)
+		return
+	}
+
+	// 4. Verificar la contraseña
+	err = bcrypt.CompareHashAndPassword([]byte(dbHashPassword), []byte(req.Contrasena))
+	if err != nil {
+		// Contraseña mal: Mensaje genérico por seguridad
+		http.Error(w, `{"error": "Credenciales inválidas"}`, http.StatusUnauthorized)
+		return
+	}
+
+	// 5. Generar nuevo Token y Actualizar Fecha
+	newToken := uuid.New().String()
+	fechaActual := time.Now()
+
+	updateQuery := `UPDATE ssldb.login SET token = $1, fechaingreso = $2 WHERE "user" = $3`
+	_, err = database.DB.Exec(updateQuery, newToken, fechaActual, req.Usuario)
+	if err != nil {
+		log.Printf("Error al actualizar token para usuario %s: %v\n", req.Usuario, err)
+		http.Error(w, "Error interno del servidor", http.StatusInternalServerError)
+		return
+	}
+
+	// 6. Responder al Frontend con éxito
+	resp := models.LoginResponse{
+		Message: "Login exitoso",
 		User:    req.Usuario,
 	}
 

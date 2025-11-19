@@ -5,22 +5,21 @@ import (
 	"log"
 	"net/http"
 
-	//Importacion del router que dirije el trafico
+	"github.com/desarrollador1SSL/softwaressl/internal/database" // Importamos el paquete de base de datos
 	"github.com/desarrollador1SSL/softwaressl/internal/router"
 )
 
 func main() {
+	// 1. Inicializar la conexión a la Base de Datos
+	database.InitDB()
+	// Aseguramos cerrar la conexión al apagar el servidor (opcional pero buena práctica)
+	defer database.DB.Close()
 
-	//Paso 1: obtener enrutador
-	//creamos un nuevo enrutador llamando a la func
-	//que se define en internal ->router->router.go
+	// 2. Configurar Rutas
 	r := router.NewRouter()
 
 	fmt.Println("Servidor Go escuchando en http://localhost:8080")
 
-	//Paso 2: iniciar el servidor
-	//le decimos al servidor que use nuestro enrutador 'r'
-	//y que con este manejaresmos las peticiones
+	// 3. Arrancar Servidor
 	log.Fatal(http.ListenAndServe(":8080", r))
-
 }

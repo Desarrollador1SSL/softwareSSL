@@ -1,54 +1,63 @@
 import React, { useState } from 'react';
 import { FaChevronLeft } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 
 import Sidebar from './MenuCliente/Sidebar';
 import PortalHeader from './HeaderCliente/PortalHeader';
+
+// --- CORRECCIÓN IMPORTANTE: Nombre exacto del archivo (Mayúsculas/Minúsculas) ---
 import './PortalClientes.css'; 
 
 function PortalClientes() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  // Función para obtener el título de la sección actual
+  const getCurrentSection = () => {
+    const pathParts = location.pathname.split('/');
+    const path = pathParts[pathParts.length - 1] || pathParts[pathParts.length - 2];
+    
+    if (!path || path === 'portal-cliente') return 'Dashboard';
+    
+    // Convierte "control-oc" a "Control Oc" (Estético)
+    return path.charAt(0).toUpperCase() + path.slice(1).replace(/-/g, ' ');
+  };
+
   return (
     <div className="dashboard-layout-vertical">
-      
-      {/* 1. HEADER SUPERIOR (Ocupa todo el ancho) */}
+      {/* Header Superior */}
       <PortalHeader />
 
-      {/* 2. CUERPO (Sidebar a la izq + Contenido a la derecha) */}
       <div className="dashboard-body">
-        
-        <Sidebar 
-          isOpen={isSidebarOpen} 
-          toggle={toggleSidebar} 
-        />
+        {/* Sidebar Izquierda */}
+        <Sidebar isOpen={isSidebarOpen} toggle={toggleSidebar} />
 
+        {/* Contenido Derecha */}
         <main className="main-content">
           <div className="content-area">
-            {/* Breadcrumbs */}
+            
+            {/* Breadcrumbs Dinámico */}
             <div className="breadcrumb-bar">
               <div className="back-btn-circle" onClick={() => navigate(-1)}>
                  <FaChevronLeft />
               </div>
               <div className="breadcrumb-text">
-                 <span>Inicio</span> / <strong>Dashboard</strong>
+                 <span>Inicio</span> / <strong>{getCurrentSection()}</strong>
               </div>
             </div>
 
-            {/* Contenido */}
+            {/* Aquí se cargan las páginas (GenericPage) */}
             <div className="white-paper">
-               <h2 style={{color: '#ddd', textAlign:'center', marginTop: '100px'}}>
-                  Contenido del Dashboard próximamente...
-               </h2>
+               <Outlet />
             </div>
+
           </div>
         </main>
-
       </div>
     </div>
   );

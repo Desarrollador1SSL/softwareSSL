@@ -266,3 +266,69 @@
   min-height: 500px;
   padding: 2rem;
 }
+
+
+/* --- ESTILOS PARA SUBMENÚS --- */
+
+/* Contenedor de los hijos */
+.submenu {
+  background-color: #f8f9fa;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid #eee; /* Borde sutil al final */
+}
+
+/* Cada ítem del submenú */
+.submenu-item {
+  padding: 10px 20px 10px 54px;
+  font-size: 0.85rem;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.submenu-item:hover {
+  color: #6c5ce7;
+  background-color: #eee;
+  padding-left: 58px; /* Pequeño efecto de movimiento a la derecha al pasar el mouse */
+}
+
+/* Flecha giratoria */
+.menu-arrow {
+  transition: transform 0.3s ease;
+}
+
+.menu-arrow.open {
+  transform: rotate(90deg);
+}
+
+/* Ajuste para cuando el sidebar está colapsado */
+.sidebar-container.collapsed .submenu {
+  display: none; /* No mostramos submenús si está cerrado el panel */
+}
+
+/*--------------SUBMENUS - Wrapper----------------- */
+
+/* Wrapper que hará la magia de la animación */
+.submenu-wrapper {
+  display: grid;
+  grid-template-rows: 0fr; /* Por defecto cerrado (altura 0) */
+  transition: grid-template-rows 0.3s ease-out; /* La animación suave */
+}
+
+.submenu-wrapper.open {
+  grid-template-rows: 1fr; /* Abierto (altura automática) */
+}
+
+/* El contenedor interno debe tener min-height 0 para que funcione el truco */
+.submenu-inner {
+  overflow: hidden;
+}
+
+/* Ocultar submenús si el sidebar principal está cerrado */
+.sidebar-container.collapsed .submenu-wrapper {
+  display: none; 
+}

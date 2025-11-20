@@ -5,7 +5,8 @@ import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 import Sidebar from './MenuCliente/Sidebar';
 import PortalHeader from './HeaderCliente/PortalHeader';
 
-// --- CORRECCIÓN IMPORTANTE: Nombre exacto del archivo (Mayúsculas/Minúsculas) ---
+// Asegúrate que este import coincida con el nombre de tu archivo.
+// En tu imagen se ve: PortalClientes.css
 import './PortalClientes.css'; 
 
 function PortalClientes() {
@@ -17,31 +18,20 @@ function PortalClientes() {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // Función para obtener el título de la sección actual
   const getCurrentSection = () => {
     const pathParts = location.pathname.split('/');
     const path = pathParts[pathParts.length - 1] || pathParts[pathParts.length - 2];
-    
     if (!path || path === 'portal-cliente') return 'Dashboard';
-    
-    // Convierte "control-oc" a "Control Oc" (Estético)
     return path.charAt(0).toUpperCase() + path.slice(1).replace(/-/g, ' ');
   };
 
   return (
     <div className="dashboard-layout-vertical">
-      {/* Header Superior */}
       <PortalHeader />
-
       <div className="dashboard-body">
-        {/* Sidebar Izquierda */}
         <Sidebar isOpen={isSidebarOpen} toggle={toggleSidebar} />
-
-        {/* Contenido Derecha */}
         <main className="main-content">
           <div className="content-area">
-            
-            {/* Breadcrumbs Dinámico */}
             <div className="breadcrumb-bar">
               <div className="back-btn-circle" onClick={() => navigate(-1)}>
                  <FaChevronLeft />
@@ -50,12 +40,10 @@ function PortalClientes() {
                  <span>Inicio</span> / <strong>{getCurrentSection()}</strong>
               </div>
             </div>
-
-            {/* Aquí se cargan las páginas (GenericPage) */}
             <div className="white-paper">
+               {/* Aquí se dibujarán las GenericPage */}
                <Outlet />
             </div>
-
           </div>
         </main>
       </div>

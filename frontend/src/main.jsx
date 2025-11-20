@@ -1,47 +1,11 @@
 import React from 'react';
-import './index.css'
-
-//ENRUTAMIENTO
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import App from './App';
+import './index.css';
 
-//RUTAS/VISTAS
-//import App from './App'
-import ProfileSelection from './components/ProfileSelection/ProfileSelection'
-import LoginCliente from './components/LoginCliente'
-import PortalCliente from './components/PortalClientes'
-import RutaProtegida from './components/RutaProtegida'
-
-const router =createBrowserRouter([
-  {
-    path: "/",
-    element: <ProfileSelection/>
-  },
-  {
-    path: "/login",
-    element: <LoginCliente/>
-  },
-  {
-    path: "/portal-cliente",
-    element:(
-      //<RutaProtegida>
-        <PortalCliente />
-      //</RutaProtegida>
-      
-    )
-  }
-]);
-
+// Ya no necesitamos crear el router aquí porque App.jsx ya contiene el <BrowserRouter>
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <App />
   </React.StrictMode>,
 );
-
-
-// createRoot(document.getElementById('root')).render(
-//   <StrictMode>
-//     {/* <App - ProfileSelection/> */}
-//     <LoginCliente />
-//   </StrictMode>,
-// )

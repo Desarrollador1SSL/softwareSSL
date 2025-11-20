@@ -1,18 +1,19 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 
+// Corrección: el prop estándar de React se llama "children", no "childre"
+function RutaProtegida({ children }) {
 
-//FUNCION QUE RECIBE EL PORTAL CLIENTE DESDE MAIN
-function RutaProtegida({childre}){
+    // Corrección: Buscar 'authToken', que es como lo guardaste en el Login
+    const TOKEN = localStorage.getItem('authToken');
 
-    const TOKEN = localStorage.getItem('token');
-
-    if(!TOKEN){
-        return <Navigate to="/login" replace/>;
-
+    if (!TOKEN) {
+        // Si no hay token, redirigir al login
+        return <Navigate to="/login" replace />;
     }
-    //EL TOKEN EXISTE, INGRESA A PORTAL CLIENTE
-    return childre;
+
+    // Si el token existe, renderizar el contenido protegido (children)
+    return children;
 }
 
 export default RutaProtegida;

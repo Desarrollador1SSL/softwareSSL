@@ -1,0 +1,9 @@
+En lugar de pensar en "quién lo usa" (Actor), 
+los servicios suelen organizarse por "de qué trata" (Dominio).
+
+Aunque el Handler sea diferente (uno verifica que seas el dueño, 
+el otro verifica que seas admin), la lógica de "ir a la base de 
+datos y buscar la info del pedido" es casi idéntica.
+
+Si creas un ClientService y un BackofficeService, podrías terminar 
+duplicando código. Por eso, lo común es tener servicios por Entidad.

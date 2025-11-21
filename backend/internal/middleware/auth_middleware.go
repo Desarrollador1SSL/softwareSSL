@@ -30,7 +30,6 @@ func AuthMiddleware(next http.HandlerFunc) http.HandlerFunc {
 		token := strings.TrimPrefix(authHeader, "Bearer ")
 
 		// 1. Validar Sesión en tabla SESSIONS
-		// El jefe dijo: "base de datos ve y dice si ese token está vigente todavía"
 		var sessionID string
 
 		// Buscamos por ID del token Y que la fecha expire sea futuro
@@ -39,7 +38,7 @@ func AuthMiddleware(next http.HandlerFunc) http.HandlerFunc {
 		err := database.DB.QueryRow(query, token).Scan(&sessionID)
 
 		if err == sql.ErrNoRows {
-			// El jefe dijo: "devuelve al front token vencido"
+			// Devuelve al front token vencido (si es que lo esta)
 			http.Error(w, `{"error": "Token vencido o inválido"}`, http.StatusUnauthorized)
 			return
 		} else if err != nil {
@@ -48,8 +47,8 @@ func AuthMiddleware(next http.HandlerFunc) http.HandlerFunc {
 		}
 
 		// 2. Renovar Sesión (Sliding Expiration)
-		// El jefe dijo: "Si está vigente, lo renueva por X tiempo más"
-		newExpiration := time.Now().Add(30 * time.Minute)
+		// Si está vigente, lo renueva por X tiempo más
+		newExpiration := time.Now().Add(30 * time.Minute) // 30 minutos extras
 		updateQuery := `UPDATE ssldb.sessions SET expires_at = $1 WHERE id = $2`
 
 		// Lo hacemos en una goroutine (segundo plano) para no frenar la respuesta

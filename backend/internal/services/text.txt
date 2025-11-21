@@ -7,3 +7,19 @@ datos y buscar la info del pedido" es casi idéntica.
 
 Si creas un ClientService y un BackofficeService, podrías terminar 
 duplicando código. Por eso, lo común es tener servicios por Entidad.
+
+
+En lugar de separar por "¿Quién lo pide?", separa por "¿De qué estamos 
+hablando?".
+
+Tu carpeta internal/services debería verse así, con archivos planos 
+(o carpetas si crece mucho, pero por tema)
+
+internal/
+└── services/
+    ├── auth_service.go       <-- Ya lo tienes (Login, Tokens)
+    ├── user_service.go       <-- Crear usuarios, listar, cambiar claves
+    ├── project_service.go    <-- Para el módulo "Obras"
+    ├── quote_service.go      <-- Para "Cotizaciones" y "Solicitudes"
+    ├── order_service.go      <-- Para "Órdenes de Compra"
+    └── payment_service.go    <-- Para "Pagos"

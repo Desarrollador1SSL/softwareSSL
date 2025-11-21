@@ -4,10 +4,10 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 // --- IMPORTS VERIFICADOS SEGÚN TU ESTRUCTURA ---
 import ProfileSelection from './components/ProfileSelection/ProfileSelection';
-import LoginCliente from './components/LoginCliente';
-import PortalClientes from './components/PortalClientes';
-import RutaProtegida from './components/RutaProtegida';
-import GenericPage from './components/GenericPage';
+import LoginCliente from './components/LoginCliente/LoginCliente';
+import PortalClientes from './components/PortalClientes/PortalClientes';
+import RutaProtegida from './components/RutaProtegida/RutaProtegida';
+import GenericPage from './components/GenericPage/GenericPage';
 
 function App() {
   return (

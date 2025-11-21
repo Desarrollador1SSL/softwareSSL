@@ -1,0 +1,19 @@
+// Usamos database.DB que ya inicializaste en main.go
+	query := `SELECT id, password FROM ssldb.login WHERE "user" = $1`
+	//esto debe llamar a un proceso almacenado
+	//y recibir la respuesta de este
+
+esto debe llamar a un procedimiento o funciones almacenado en la bd y recibir la respuesta de este
+
+database.InitDB()
+	// Aseguramos cerrar la conexión al apagar el servidor (opcional pero buena práctica)
+	defer database.DB.Close()
+
+debemos abrir cuando queramos usarla y cerrarla luego, no tenerla abierta siempre
+
+como definir multithead en go
+
+//revisar de cuantos caracteres es el uuid que se crea (16 optimo)
+// 3. Crear la SESIÓN
+	sessionID := uuid.New() //investigar libreria de cuanto es el uuid que se crea
+	expiresAt := time.Now().Add(30 * time.Minute)

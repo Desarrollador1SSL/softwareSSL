@@ -1,5 +1,6 @@
 package auth
 
+// NO DEBE HABER LOGICA DE NEGOCIO AQUI
 import (
 	"encoding/json"
 	"net/http"
@@ -24,7 +25,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// 1. Leer JSON (Responsabilidad del Handler)
+	// 1. Leer JSON
 	var req models.LoginRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {

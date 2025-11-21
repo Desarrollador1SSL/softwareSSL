@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaUser, FaLock } from 'react-icons/fa'; // Importamos íconos
 import './loginCliente.css';
-import logo from '../assets/icons/ssl-logo.png';
+import logo from '../../assets/icons/ssl-logo.png';
 
 function LoginCliente() {
   // Estados para controlar los inputs

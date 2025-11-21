@@ -20,6 +20,8 @@ func LoginService(usuario string, contrasena string) (string, error) {
 
 	// Usamos database.DB que ya inicializaste en main.go
 	query := `SELECT id, password FROM ssldb.login WHERE "user" = $1`
+	//esto debe llamar a un proceso almacenado
+	//y recibir la respuesta de este
 	err := database.DB.QueryRow(query, usuario).Scan(&userID, &dbHashPassword)
 
 	if err == sql.ErrNoRows {
@@ -36,13 +38,15 @@ func LoginService(usuario string, contrasena string) (string, error) {
 	}
 
 	// 3. Crear la SESIÓN
-	sessionID := uuid.New()
+	sessionID := uuid.New() //investigar libreria de cuanto es el uuid que se crea
 	expiresAt := time.Now().Add(30 * time.Minute)
 
 	// NOTA: Aquí es donde en el futuro agregaremos lógica para roles (Cliente, Admin, etc.)
 	metadata := `{"rol": "cliente", "permisos": ["ver_dashboard"]}`
 
 	insertSession := `INSERT INTO ssldb.sessions (id, user_id, expires_at, data) VALUES ($1, $2, $3, $4)`
+	//esto debe llamar a un proceso almacenado
+	//y recibir la respuesta de este
 	_, err = database.DB.Exec(insertSession, sessionID, userID, expiresAt, metadata)
 
 	if err != nil {

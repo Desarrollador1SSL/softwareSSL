@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { FaChevronLeft } from 'react-icons/fa';
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 
-import Sidebar from '../MenuCliente/Sidebar';
-import PortalHeader from '../HeaderCliente/PortalHeader';
+import Sidebar from '../MenuCliente/MenuCliente';
+import PortalHeader from '../HeaderCliente/HeaderCliente';
 
 // Asegúrate que este import coincida con el nombre de tu archivo.
 // En tu imagen se ve: PortalClientes.css
-import './PortalClientes.css'; 
+import './portalClientes.css'; 
 
 function PortalClientes() {
   const navigate = useNavigate();

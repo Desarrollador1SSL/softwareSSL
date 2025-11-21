@@ -1,0 +1,148 @@
+/* sidebar.css */
+
+/* Contenedor del Sidebar */
+.sidebar-container {
+  width: 260px;
+  background-color: #fff;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.sidebar-container.collapsed {
+  width: 70px;
+}
+
+/* Botón Toggle (Flecha Azul) */
+.toggle-btn {
+  position: absolute;
+  top: 15px; 
+  right: -12px; 
+  width: 24px;
+  height: 24px;
+  background-color: #6c5ce7;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  border: 2px solid #fff;
+}
+
+/* Menú Items */
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.95rem;
+  margin-bottom: 2px;
+}
+
+.menu-item:hover {
+  background-color: #f5f5f5;
+}
+
+/* ESTILO ACTIVO */
+.menu-item.active {
+  background-color: #6c5ce7; 
+  color: white; 
+}
+
+.menu-item.active .menu-icon {
+  color: white;
+}
+
+.menu-icon {
+  margin-right: 15px;
+  font-size: 1.1rem;
+  color: #666;
+  min-width: 20px;
+  text-align: center;
+}
+
+.menu-arrow {
+  margin-left: auto;
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+}
+
+.menu-arrow.open {
+  transform: rotate(90deg);
+}
+
+/* Estilos colapsados */
+.sidebar-container.collapsed .menu-item span,
+.sidebar-container.collapsed .menu-arrow {
+  display: none;
+}
+
+.sidebar-container.collapsed .menu-item {
+  justify-content: center;
+  padding: 15px 0;
+}
+
+.sidebar-container.collapsed .menu-icon {
+  margin-right: 0;
+  font-size: 1.3rem;
+}
+
+/* --- SUBMENÚS --- */
+
+.submenu {
+  background-color: #f8f9fa;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid #eee; 
+}
+
+.submenu-item {
+  padding: 10px 20px 10px 54px;
+  font-size: 0.85rem;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.submenu-item:hover {
+  color: #6c5ce7;
+  background-color: #eee;
+  padding-left: 58px; 
+}
+
+/* Wrapper para animación */
+.submenu-wrapper {
+  display: grid;
+  grid-template-rows: 0fr; 
+  transition: grid-template-rows 0.3s ease-out; 
+}
+
+.submenu-wrapper.open {
+  grid-template-rows: 1fr; 
+}
+
+.submenu-inner {
+  overflow: hidden;
+}
+
+/* Ocultar submenús si el sidebar está cerrado */
+.sidebar-container.collapsed .submenu,
+.sidebar-container.collapsed .submenu-wrapper {
+  display: none; 
+}

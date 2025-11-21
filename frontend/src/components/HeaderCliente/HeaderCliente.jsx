@@ -1,7 +1,10 @@
 import React from 'react';
 import { FaCalendarAlt, FaQuestionCircle, FaBell, FaChevronDown } from 'react-icons/fa';
 // Importamos el logo aquí
-import logoImg from '../../assets/icons/ssl-logo.png'; 
+import logoImg from '../../assets/icons/ssl-logo.png';
+
+// --- IMPORTAMOS SU PROPIO CSS ---
+import './headerCliente.css';
 
 function PortalHeader() {
   const fecha = new Date().toLocaleDateString('es-ES', {

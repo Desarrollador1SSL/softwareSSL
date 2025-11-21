@@ -5,6 +5,9 @@ import {
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom'; // Importamos hook de navegación
 
+// --- IMPORTAMOS SU PROPIO CSS ---
+import './menuCliente.css';
+
 // ESTRUCTURA DEFINITIVA CON RUTAS
 const MENU_ITEMS = [
   { 

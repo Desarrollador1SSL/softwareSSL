@@ -2,8 +2,6 @@ import React from 'react';
 import './profileSelection.css';
 import { useNavigate } from 'react-router-dom';
 
-//COMPONENTE GLOBAL DE HEADER
-import Header from '../Header/Header' 
 
 
 //COMPONENTE SECUNDARIO PARA TARJETAS
@@ -45,7 +43,10 @@ function ProfileSelection() {
 
     <div>
         
-        <Header />
+      <header className="selection-header">
+        <img src="/ssl-logo.png" alt="SSL Logo" />
+        <span>Página Principal</span>
+      </header>
 
         <main className="selection-main">
             <h2>Bienvenido al Sistema SSL v4.0</h2>
